@@ -14,15 +14,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.orbimotos.model.entity.Clientes;
-import com.example.orbimotos.service.ClienteServie;
+import com.example.orbimotos.service.ClientesService;
 
 @RestController
 @RequestMapping("/api/clientes")
 public class ClienteController {
 
-	private final ClienteServie clienteServie;
+	private final ClientesService clienteServie;
 
-	public ClienteController(ClienteServie clienteServie) {
+	public ClienteController(ClientesService clienteServie) {
 		this.clienteServie = clienteServie;
 	}
 
