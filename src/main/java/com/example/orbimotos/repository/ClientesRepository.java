@@ -6,7 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.example.orbimotos.model.entity.Clientes;
 
-public interface ClienteRepository extends JpaRepository<Clientes, Long> {
+public interface ClientesRepository extends JpaRepository<Clientes, Long> {
 
     boolean existsByNombreIgnoreCase(String nombre);
 

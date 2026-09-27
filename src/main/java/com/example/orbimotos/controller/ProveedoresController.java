@@ -1,5 +1,5 @@
 package com.example.orbimotos.controller;
 
-public class ProveedorController {
+public class ProveedoresController {
     
 }

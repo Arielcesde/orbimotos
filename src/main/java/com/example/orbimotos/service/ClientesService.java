@@ -5,14 +5,14 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import com.example.orbimotos.model.entity.Clientes;
-import com.example.orbimotos.repository.ClienteRepository;
+import com.example.orbimotos.repository.ClientesRepository;
 
 @Service
-public class ClienteServie {
+public class ClientesService {
 
-	private final ClienteRepository clienteRepository;
+	private final ClientesRepository clienteRepository;
 
-	public ClienteServie(ClienteRepository clienteRepository) {
+	public ClientesService(ClientesRepository clienteRepository) {
 		this.clienteRepository = clienteRepository;
 	}
 

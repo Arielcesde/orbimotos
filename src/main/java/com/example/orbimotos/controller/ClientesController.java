@@ -18,39 +18,39 @@ import com.example.orbimotos.service.ClientesService;
 
 @RestController
 @RequestMapping("/api/clientes")
-public class ClienteController {
+public class ClientesController {
 
-	private final ClientesService clienteServie;
+	private final ClientesService clientesService;
 
-	public ClienteController(ClientesService clienteServie) {
-		this.clienteServie = clienteServie;
+	public ClientesController(ClientesService clientesService) {
+		this.clientesService = clientesService;
 	}
 
 	@GetMapping
 	public ResponseEntity<List<Clientes>> listar() {
-		return ResponseEntity.ok(clienteServie.listar());
+		return ResponseEntity.ok(clientesService.listar());
 	}
 
 	@GetMapping("/{id}")
 	public ResponseEntity<Clientes> buscarPorId(@PathVariable long id) {
-		return ResponseEntity.ok(clienteServie.buscarPorId(id));
+		return ResponseEntity.ok(clientesService.buscarPorId(id));
 	}
 
 	@PostMapping
 	public ResponseEntity<Clientes> guardar(@RequestBody Clientes cliente) {
-		return ResponseEntity.status(HttpStatus.CREATED).body(clienteServie.guardar(cliente));
+		return ResponseEntity.status(HttpStatus.CREATED).body(clientesService.guardar(cliente));
 	}
 
 	@PutMapping("/{id}")
 	public ResponseEntity<Clientes> actualizar(
 			@PathVariable long id,
 			@RequestBody Clientes cliente) {
-		return ResponseEntity.ok(clienteServie.actualizar(id, cliente));
+		return ResponseEntity.ok(clientesService.actualizar(id, cliente));
 	}
 
 	@DeleteMapping("/{id}")
 	public ResponseEntity<Void> eliminar(@PathVariable long id) {
-		clienteServie.eliminar(id);
+		clientesService.eliminar(id);
 		return ResponseEntity.noContent().build();
 	}
 }
