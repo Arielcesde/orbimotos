@@ -4,69 +4,62 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import com.example.orbimotos.exception.RecursoNoEncontradoException;
+import com.example.orbimotos.exception.ReglaNegocioException;
 import com.example.orbimotos.model.entity.Clientes;
 import com.example.orbimotos.repository.ClientesRepository;
 
 @Service
 public class ClientesService {
 
-	private final ClientesRepository clienteRepository;
+    private final ClientesRepository clientesRepository;
 
-	public ClientesService(ClientesRepository clienteRepository) {
-		this.clienteRepository = clienteRepository;
-	}
+    public ClientesService(ClientesRepository clientesRepository) {
+        this.clientesRepository = clientesRepository;
+    }
 
-	public List<Clientes> listar() {
-		return clienteRepository.findAll();
-	}
+    public List<Clientes> listar() {
+        return clientesRepository.findAll();
+    }
 
-	public Clientes buscarPorId(long id) {
-		if (id <= 0) {
-			throw new IllegalArgumentException("El id del cliente debe ser mayor que cero");
-		}
+    public Clientes buscarPorId(long id) {
+        return clientesRepository.findById(id)
+                .orElseThrow(() -> new RecursoNoEncontradoException("Cliente no encontrado con id: " + id));
+    }
 
-		return clienteRepository.findById(id)
-				.orElseThrow(() -> new IllegalArgumentException("No existe un cliente con el id " + id));
-	}
+    /**
+     * REGLA DE NEGOCIO 1: Validar que el nombre del cliente no esté vacío.
+     */
+    public Clientes guardar(Clientes cliente) {
+        if (cliente.getNombre() == null || cliente.getNombre().trim().isEmpty()) {
+            throw new ReglaNegocioException("El nombre del cliente es obligatorio.");
+        }
+        return clientesRepository.save(cliente);
+    }
 
-	public Clientes guardar(Clientes cliente) {
-		validarCliente(cliente);
+    /**
+     * REGLA DE NEGOCIO 2: Validar actualización del cliente.
+     */
+    public Clientes actualizar(long id, Clientes clienteDetalles) {
+        Clientes clienteExistente = buscarPorId(id);
 
-		if (clienteRepository.existsByNombreIgnoreCase(cliente.getNombre().trim())) {
-			throw new IllegalArgumentException("Ya existe un cliente con ese nombre");
-		}
+        if (clienteDetalles.getNombre() == null || clienteDetalles.getNombre().trim().isEmpty()) {
+            throw new ReglaNegocioException("El nombre del cliente no puede estar vacío.");
+        }
 
-		cliente.setNombre(cliente.getNombre().trim());
-		return clienteRepository.save(cliente);
-	}
+        clienteExistente.setNombre(clienteDetalles.getNombre());
+        if (clienteDetalles.getTelefono() != null) {
+            clienteExistente.setTelefono(clienteDetalles.getTelefono());
+        }
+        if (clienteDetalles.getEmail() != null) {
+            clienteExistente.setEmail(clienteDetalles.getEmail());
+        }
 
-	public Clientes actualizar(long id, Clientes cliente) {
-		buscarPorId(id);
-		validarCliente(cliente);
+        return clientesRepository.save(clienteExistente);
+    }
 
-		if (clienteRepository.existsByNombreIgnoreCaseAndIdNot(cliente.getNombre().trim(), id)) {
-			throw new IllegalArgumentException("Ya existe otro cliente con ese nombre");
-		}
-
-		cliente.setId(id);
-		cliente.setNombre(cliente.getNombre().trim());
-		return clienteRepository.save(cliente);
-	}
-
-	public void eliminar(long id) {
-		buscarPorId(id);
-		clienteRepository.deleteById(id);
-	}
-
-	private void validarCliente(Clientes cliente) {
-		if (cliente == null || cliente.getNombre() == null || cliente.getNombre().isBlank()) {
-			throw new IllegalArgumentException("El nombre del cliente es obligatorio");
-		}
-
-		String nombre = cliente.getNombre().trim();
-		if (!Character.isUpperCase(nombre.charAt(0))) {
-			throw new IllegalArgumentException("El nombre del cliente debe comenzar con mayúscula");
-		}
-	}
+    public void eliminar(long id) {
+        Clientes cliente = buscarPorId(id);
+        clientesRepository.delete(cliente);
+    }
 }
-

@@ -20,37 +20,37 @@ import com.example.orbimotos.service.RepuestosService;
 @RequestMapping("/api/repuestos")
 public class RepuestosController {
 
-	private final RepuestosService repuestosService;
+    private final RepuestosService repuestosService;
 
-	public RepuestosController(RepuestosService repuestosService) {
-		this.repuestosService = repuestosService;
-	}
+    public RepuestosController(RepuestosService repuestosService) {
+        this.repuestosService = repuestosService;
+    }
 
-	@GetMapping
-	public ResponseEntity<List<Repuestos>> listar() {
-		return ResponseEntity.ok(repuestosService.listar());
-	}
+    @GetMapping
+    public ResponseEntity<List<Repuestos>> listar() {
+        return ResponseEntity.ok(repuestosService.listar());
+    }
 
-	@GetMapping("/{id}")
-	public ResponseEntity<Repuestos> buscarPorId(@PathVariable long id) {
-		return ResponseEntity.ok(repuestosService.buscarPorId(id));
-	}
+    @GetMapping("/{id}")
+    public ResponseEntity<Repuestos> buscarPorId(@PathVariable long id) {
+        return ResponseEntity.ok(repuestosService.buscarPorId(id));
+    }
 
-	@PostMapping
-	public ResponseEntity<Repuestos> guardar(@RequestBody Repuestos repuesto) {
-		return ResponseEntity.status(HttpStatus.CREATED).body(repuestosService.guardar(repuesto));
-	}
+    @PostMapping
+    public ResponseEntity<Repuestos> guardar(@RequestBody Repuestos repuesto) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(repuestosService.guardar(repuesto));
+    }
 
-	@PutMapping("/{id}")
-	public ResponseEntity<Repuestos> actualizar(
-			@PathVariable long id,
-			@RequestBody Repuestos repuesto) {
-		return ResponseEntity.ok(repuestosService.actualizar(id, repuesto));
-	}
+    @PutMapping("/{id}")
+    public ResponseEntity<Repuestos> actualizar(
+            @PathVariable long id,
+            @RequestBody Repuestos repuesto) {
+        return ResponseEntity.ok(repuestosService.actualizar(id, repuesto));
+    }
 
-	@DeleteMapping("/{id}")
-	public ResponseEntity<Void> eliminar(@PathVariable long id) {
-		repuestosService.eliminar(id);
-		return ResponseEntity.noContent().build();
-	}
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> eliminar(@PathVariable long id) {
+        repuestosService.eliminar(id);
+        return ResponseEntity.noContent().build();
+    }
 }
