@@ -5,19 +5,19 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import com.example.orbimotos.model.entity.Clientes;
-import com.example.orbimotos.repository.ClienteRepository;
+import com.example.orbimotos.repository.ClientesRepository;
 
 @Service
-public class ClienteServie {
+public class ClientesService {
 
-	private final ClienteRepository clienteRepository;
+	private final ClientesRepository clientesRepository;
 
-	public ClienteServie(ClienteRepository clienteRepository) {
-		this.clienteRepository = clienteRepository;
+	public ClientesService(ClientesRepository clientesRepository) {
+		this.clientesRepository = clientesRepository;
 	}
 
 	public List<Clientes> listar() {
-		return clienteRepository.findAll();
+		return clientesRepository.findAll();
 	}
 
 	public Clientes buscarPorId(long id) {
@@ -25,37 +25,37 @@ public class ClienteServie {
 			throw new IllegalArgumentException("El id del cliente debe ser mayor que cero");
 		}
 
-		return clienteRepository.findById(id)
+		return clientesRepository.findById(id)
 				.orElseThrow(() -> new IllegalArgumentException("No existe un cliente con el id " + id));
 	}
 
 	public Clientes guardar(Clientes cliente) {
 		validarCliente(cliente);
 
-		if (clienteRepository.existsByNombreIgnoreCase(cliente.getNombre().trim())) {
+		if (clientesRepository.existsByNombreIgnoreCase(cliente.getNombre().trim())) {
 			throw new IllegalArgumentException("Ya existe un cliente con ese nombre");
 		}
 
 		cliente.setNombre(cliente.getNombre().trim());
-		return clienteRepository.save(cliente);
+		return clientesRepository.save(cliente);
 	}
 
 	public Clientes actualizar(long id, Clientes cliente) {
 		buscarPorId(id);
 		validarCliente(cliente);
 
-		if (clienteRepository.existsByNombreIgnoreCaseAndIdNot(cliente.getNombre().trim(), id)) {
+		if (clientesRepository.existsByNombreIgnoreCaseAndIdNot(cliente.getNombre().trim(), id)) {
 			throw new IllegalArgumentException("Ya existe otro cliente con ese nombre");
 		}
 
 		cliente.setId(id);
 		cliente.setNombre(cliente.getNombre().trim());
-		return clienteRepository.save(cliente);
+		return clientesRepository.save(cliente);
 	}
 
 	public void eliminar(long id) {
 		buscarPorId(id);
-		clienteRepository.deleteById(id);
+		clientesRepository.deleteById(id);
 	}
 
 	private void validarCliente(Clientes cliente) {
