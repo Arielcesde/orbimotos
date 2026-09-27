@@ -36,4 +36,6 @@ public class Repuestos {
     public void setNombre(String nombre) {
         this.nombre = nombre;
     }
-}
+ }
+
+

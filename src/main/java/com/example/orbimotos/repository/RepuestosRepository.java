@@ -6,3 +6,4 @@ import com.example.orbimotos.model.entity.Repuestos;
 
 public interface RepuestosRepository extends JpaRepository<Repuestos, Long> {
 }
+
