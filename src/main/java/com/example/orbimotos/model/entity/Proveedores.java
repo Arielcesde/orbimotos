@@ -1,5 +1,6 @@
 package com.example.orbimotos.model.entity;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -8,27 +9,25 @@ import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "proveedores")
+@Schema(description = "Entidad que regitra y guarda los datos se los proveedores")
 public class Proveedores {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Schema(description = "Identificador unico de proveedor", example = "01")
     private Long id;
 
+    @Schema(description = "Nit del proveedor")
     private String nit;
+
+    @Schema(description = "nombre del proveedor")
     private String nombre;
+
+    @Schema(description = "Telelfono")
     private String telefono;
+
+    @Schema(description = "dirección")
     private String direccion;
-
-    public Proveedores() {
-    }
-
-    public Proveedores(Long id, String nit, String nombre, String telefono, String direccion) {
-        this.id = id;
-        this.nit = nit;
-        this.nombre = nombre;
-        this.telefono = telefono;
-        this.direccion = direccion;
-    }
 
     public Long getId() {
         return id;
